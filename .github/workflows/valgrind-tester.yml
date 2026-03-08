@@ -101,3 +101,29 @@ jobs:
                     source_files: "tests/test_clang_lsan.c"
                     sanitizer: lsan
                     treat_error_as_warning: true
+
+    run_clang_tidy_tests:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: "Checkout"
+                uses: actions/checkout@v4.1.4
+
+            -   name: "Clang-Tidy test"
+                uses: ./
+                with:
+                    mode: clang-tidy
+                    source_files: "tests/test_clang_tidy.c"
+                    treat_error_as_warning: true
+
+    run_iwyu_tests:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: "Checkout"
+                uses: actions/checkout@v4.1.4
+
+            -   name: "IWYU test"
+                uses: ./
+                with:
+                    mode: iwyu
+                    source_files: "tests/test_iwyu.c"
+                    treat_error_as_warning: true

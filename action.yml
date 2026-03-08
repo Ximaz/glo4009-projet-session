@@ -1,11 +1,11 @@
-name: "Valgrind & Clang Sanitizer Checker"
-description: "Check for memory leaks, poorly managed or even not managed memory, unclosed file descriptors, and runtime errors using Valgrind or Clang sanitizers."
+name: "Valgrind, Clang Sanitizer, Clang-Tidy & IWYU Checker"
+description: "Check for memory leaks, poorly managed or even not managed memory, unclosed file descriptors, and runtime errors using Valgrind, Clang sanitizers, Clang-Tidy linting, or Include-What-You-Use analysis."
 branding:
   icon: "archive"
   color: "blue"
 inputs:
   mode:
-    description: "Analysis mode: 'valgrind' or 'clang'"
+    description: "Analysis mode: 'valgrind', 'clang', 'clang-tidy', or 'iwyu'"
     required: true
     default: valgrind
   source_files:
@@ -17,6 +17,9 @@ inputs:
     default: asan
   clang_extra_flags:
     description: "Additional compilation flags (e.g. -pthread, -lm)"
+    required: false
+  clang_tidy_checks:
+    description: "Comma-separated clang-tidy checks to enable (e.g. 'bugprone-*,readability-*')"
     required: false
   output_binary:
     description: "Name for the compiled binary"
