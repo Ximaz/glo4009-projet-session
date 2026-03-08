@@ -102,6 +102,15 @@ jobs:
                     sanitizer: lsan
                     treat_error_as_warning: true
 
+            -   name: "Clang++ ASan test (C++)"
+                uses: ./
+                with:
+                    mode: clang
+                    compiler: clang++
+                    source_files: "tests/test_clang_asan.cpp"
+                    sanitizer: asan
+                    treat_error_as_warning: true
+
     run_clang_tidy_tests:
         runs-on: ubuntu-latest
         steps:

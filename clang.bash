@@ -87,6 +87,7 @@ parse_sanitizer_output() {
 main() {
     local SOURCE_FILES="${INPUT_SOURCE_FILES:-}"
     local SANITIZER="${INPUT_SANITIZER:-asan}"
+    local COMPILER="${INPUT_COMPILER:-clang}"
     local EXTRA_FLAGS="${INPUT_CLANG_EXTRA_FLAGS:-}"
     local OUTPUT_BINARY="${INPUT_OUTPUT_BINARY:-a.out}"
     local TIMEOUT="${INPUT_TIMEOUT:-0}"
@@ -97,11 +98,16 @@ main() {
         exit 1
     fi
 
+    if [[ "${COMPILER}" != "clang" && "${COMPILER}" != "clang++" ]]; then
+        echo "::error::Unknown compiler '${COMPILER}'. Must be 'clang' or 'clang++'."
+        exit 1
+    fi
+
     local SANITIZER_FLAGS
     SANITIZER_FLAGS=$(get_sanitizer_flags "${SANITIZER}")
 
     # shellcheck disable=SC2086
-    clang -g ${SANITIZER_FLAGS} ${EXTRA_FLAGS} ${SOURCE_FILES} -o "${OUTPUT_BINARY}"
+    ${COMPILER} -g ${SANITIZER_FLAGS} ${EXTRA_FLAGS} ${SOURCE_FILES} -o "${OUTPUT_BINARY}"
 
     set +e
     # shellcheck disable=SC2086
