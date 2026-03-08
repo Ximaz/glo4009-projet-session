@@ -1,15 +1,33 @@
-name: "Valgrind Checker"
-description: "Check for memory leaks, poorly managed or even not managed memory, and unclosed file descriptors."
+name: "Valgrind & Clang Sanitizer Checker"
+description: "Check for memory leaks, poorly managed or even not managed memory, unclosed file descriptors, and runtime errors using Valgrind or Clang sanitizers."
 branding:
   icon: "archive"
   color: "blue"
 inputs:
+  mode:
+    description: "Analysis mode: 'valgrind' or 'clang'"
+    required: true
+    default: valgrind
+  source_files:
+    description: "Space-separated list of C source files to compile (required when mode=clang)"
+    required: false
+  sanitizer:
+    description: "Clang sanitizer to use: asan, ubsan, tsan, msan, lsan"
+    required: false
+    default: asan
+  clang_extra_flags:
+    description: "Additional compilation flags (e.g. -pthread, -lm)"
+    required: false
+  output_binary:
+    description: "Name for the compiled binary"
+    required: false
+    default: a.out
   binary_args:
     description: "The args to pass to the binary once started (string format)"
     required: false
   binary_path:
-    description: "The binary to run Valgrind over"
-    required: true
+    description: "The binary to run Valgrind over (required when mode=valgrind)"
+    required: false
   ld_library_path:
     description: "Custom library path (for dymanic locally-compiled libraries)"
     required: false
