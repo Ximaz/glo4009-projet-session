@@ -37,6 +37,9 @@ if [[ "$OS" == "Linux" ]]; then
     elif command -v yum >/dev/null 2>&1; then
         echo "Installation via yum..."
         sudo yum install -y clang llvm
+    elif command -v pacman >/dev/null 2>&1; then
+        echo "Installation via pacman..."
+        sudo pacman -S clang llvm llvm-libs --noconfirm
     else
         echo "Gestionnaire de paquets Linux non supporté automatiquement."
         exit 1
