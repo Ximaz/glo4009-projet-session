@@ -1,9 +1,22 @@
-name: "Valgrind Checker"
-description: "Check for memory leaks, poorly managed or even not managed memory, and unclosed file descriptors."
+name: "Code Quality Checker"
+description: "Check for memory leaks, poorly managed or even not managed memory, unclosed file descriptors, and static analysis issues."
 branding:
   icon: "archive"
   color: "blue"
 inputs:
+  mode:
+    description: "Tool to use: 'valgrind' or 'clang-static-analyzer'"
+    required: false
+    default: "valgrind"
+  # clang-static-analyzer inputs
+  source_files:
+    description: "Space-separated source files to analyze (required when mode=clang-static-analyzer)"
+    required: false
+  clang_extra_flags:
+    description: "Extra flags forwarded to clang --analyze"
+    required: false
+    default: ""
+  # valgrind inputs
   binary_args:
     description: "The args to pass to the binary once started (string format)"
     required: false

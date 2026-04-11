@@ -1,4 +1,4 @@
-# Valgrind Checker Action
+# Code Quality Checker Action
 
 A GitHub Action for checking your memory management using [Valgrind](https://valgrind.org).
 
@@ -19,8 +19,13 @@ check the [`4.2. Explanation of error messages from Memcheck`](https://valgrind.
 # Usage
 
 ```yml
--   uses: Ximaz/valgrind-action@v1.2.0
+-   uses: ./
     with:
+        # Tool to use: 'valgrind' or 'clang-static-analyzer'.
+        #
+        # Default: "valgrind"
+        mode: "valgrind"
+
         # Either absolute or reative path to the binary you want to check the
         # memory on.
         binary_path: ""
@@ -107,4 +112,75 @@ check the [`4.2. Explanation of error messages from Memcheck`](https://valgrind.
         #
         # Default: 0s
         timeout: 0s
+```
+
+---
+
+# Clang Static Analyzer
+
+A GitHub Action for static analysis of your C/C++ source files using
+[Clang Static Analyzer](https://clang-analyzer.llvm.org/).
+
+This Action will check for :
+- memory leaks (heap-allocated objects never released),
+- null pointer dereferences,
+- use of uninitialized values,
+- dead code and unreachable paths,
+- invalid usage of C APIs (e.g. `malloc`/`free` mismatches),
+- division by zero.
+
+If you want to have more details about the checks this Action supports, you can
+check the [available checkers](https://clang-analyzer.llvm.org/available_checks.html) section.
+
+# Usage
+
+```yml
+-   uses: ./
+    with:
+        # Tool to use: 'valgrind' or 'clang-static-analyzer'.
+        #
+        # Default: "valgrind"
+        mode: "clang-static-analyzer"
+
+        # Space-separated list of C/C++ source files to analyze.
+        # This input is required when mode=clang-static-analyzer.
+        source_files: "main.c utils.c"
+
+        # Extra flags to forward to `clang --analyze`.
+        # Useful for specifying include paths or defines,
+        # e.g. "-I./include -DDEBUG".
+        #
+        # Default: ""
+        clang_extra_flags: ""
+
+        # Whether or not to treat error as warning. This implies that, if set
+        # to true, then the action will not exit with an error status, even if
+        # the analyzer found issues during the source analysis. Also, this
+        # implies that in your workflow summary, you will see warning
+        # annotations instead of error ones.
+        #
+        # Default: false
+        treat_error_as_warning: false
+```
+
+---
+
+# Local Testing
+
+Build the image:
+```bash
+docker build -t code-quality-checker .
+```
+
+Test with Clang Static Analyzer:
+```bash
+docker run --rm -v "$PWD/tests:/src" -e INPUT_MODE=clang-static-analyzer -e INPUT_SOURCE_FILES=/src/test_invalid_read.c -e INPUT_TREAT_ERROR_AS_WARNING=false code-quality-checker
+```
+
+Test with Valgrind:
+```bash
+docker run --rm -v "$(pwd)/tests:/src" -v "/tmp:/tmp" --entrypoint gcc code-quality-checker -g /src/test_no_free.c -o /tmp/test_no_free
+```
+```bash
+docker run --rm -v "/tmp:/tmp" -e INPUT_MODE=valgrind -e INPUT_BINARY_PATH=/tmp/test_no_free -e INPUT_REDZONE_SIZE=16 -e INPUT_TRACK_FILE_DESCRIPTORS=true -e INPUT_TREAT_ERROR_AS_WARNING=false -e INPUT_VERBOSE=false -e INPUT_TIMEOUT=0 -e INPUT_VALGRIND_SUPPRESSIONS="" -e INPUT_LD_LIBRARY_PATH="" -e INPUT_BINARY_ARGS="" code-quality-checker
 ```
