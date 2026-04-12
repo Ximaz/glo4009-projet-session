@@ -7,6 +7,9 @@ case "${MODE}" in
     valgrind)
         exec /root/valgrind.bash
         ;;
+    helgrind)
+        exec /root/helgrind.bash
+        ;;
     clang)
         exec /root/clang.bash
         ;;
@@ -17,7 +20,7 @@ case "${MODE}" in
         exec /root/iwyu.bash
         ;;
     *)
-        echo "::error::Unknown mode '${MODE}'. Must be 'valgrind', 'clang', 'clang-tidy', or 'iwyu'."
+        echo "::error::Unknown mode '${MODE}'. Must be 'valgrind', 'helgrind', 'clang', 'clang-tidy', or 'iwyu'."
         exit 1
         ;;
 esac

@@ -1,66 +1,100 @@
-name: "Valgrind, Clang Sanitizer, Clang-Tidy & IWYU Checker"
-description: "Check for memory leaks, poorly managed or even not managed memory, unclosed file descriptors, and runtime errors using Valgrind, Clang sanitizers, Clang-Tidy linting, or Include-What-You-Use analysis."
+name: "Valgrind, Helgrind, Clang Sanitizer, Clang-Tidy & IWYU Checker"
+description: "Check for memory leaks, runtime errors, threading issues, and code quality problems using Valgrind, Helgrind, Clang sanitizers, Clang-Tidy linting, or Include-What-You-Use analysis."
 branding:
   icon: "archive"
   color: "blue"
+
 inputs:
   mode:
-    description: "Analysis mode: 'valgrind', 'clang', 'clang-tidy', or 'iwyu'"
+    description: "Analysis mode: 'valgrind', 'helgrind', 'clang', 'clang-tidy', or 'iwyu'"
     required: true
     default: valgrind
+
   source_files:
     description: "Space-separated list of C/C++ source files to compile (required when mode=clang)"
     required: false
+
   sanitizer:
     description: "Clang sanitizer to use: asan, ubsan, tsan, msan, lsan"
     required: false
     default: asan
+
   compiler:
     description: "Compiler to use when mode=clang: 'clang' or 'clang++'"
     required: false
     default: clang
+
   clang_extra_flags:
     description: "Additional compilation flags (e.g. -pthread, -lm)"
     required: false
+
   clang_tidy_checks:
     description: "Comma-separated clang-tidy checks to enable (e.g. 'bugprone-*,readability-*')"
     required: false
+
   output_binary:
     description: "Name for the compiled binary"
     required: false
     default: a.out
+
   binary_args:
     description: "The args to pass to the binary once started (string format)"
     required: false
+
   binary_path:
     description: "The binary to run Valgrind over (required when mode=valgrind)"
     required: false
+
   ld_library_path:
-    description: "Custom library path (for dymanic locally-compiled libraries)"
+    description: "Custom library path (for dynamic locally-compiled libraries)"
     required: false
+
   redzone_size:
     description: "Valgrind's padding blocks protection (redzone) in bytes"
     required: false
     default: 16
+
   track_file_descriptors:
     description: "Whether or not to track file descriptors (true or false)"
     required: false
     default: true
+
   treat_error_as_warning:
     description: "The workflow won't exit as error, and error annotations will be replaced by warnings"
     required: false
     default: false
+
   valgrind_suppressions:
     description: "String containing Valgrind suppressions (will be put inside a suppressions file)"
     required: false
+
   verbose:
-    description: "Asking Valgrind to be verbose"
+    description: "Ask Valgrind or Helgrind to be verbose"
     required: false
     default: false
+
   timeout:
     description: "Limit running time of the binary"
     required: false
     default: 0
+
+  helgrind_binary_path:
+    description: "The binary to run Helgrind over (required when mode=helgrind)"
+    required: false
+
+  helgrind_binary_args:
+    description: "The args to pass to the binary when Helgrind starts it"
+    required: false
+
+  helgrind_history_level:
+    description: "Helgrind history level: none, approx, or full"
+    required: false
+    default: full
+
+  helgrind_track_lockorders:
+    description: "Whether Helgrind should detect lock order issues (true or false)"
+    required: false
+    default: true
 
 runs:
   using: "docker"

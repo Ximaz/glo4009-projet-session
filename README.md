@@ -108,3 +108,26 @@ check the [`4.2. Explanation of error messages from Memcheck`](https://valgrind.
         # Default: 0s
         timeout: 0s
 ```
+## Helgrind mode
+
+Helgrind is a Valgrind tool dedicated to multithreaded programs. It helps detect:
+- data races,
+- incorrect mutex usage,
+- inconsistent lock ordering,
+- thread synchronization issues.
+
+Use `mode: helgrind` to run Helgrind on a target binary.
+
+### Example usage with Helgrind
+
+```yml
+- uses: Ximaz/valgrind-action@v1.2.0
+  with:
+    mode: helgrind
+    helgrind_binary_path: "./test_helgrind_race"
+    helgrind_binary_args: ""
+    helgrind_history_level: full
+    helgrind_track_lockorders: true
+    verbose: false
+    timeout: 10s
+    treat_error_as_warning: true
