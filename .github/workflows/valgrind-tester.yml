@@ -1,10 +1,10 @@
-name: Valgrind Tester
+name: Valgrind & Clang Tester
 
 on:
     - push
 
 jobs:
-    run_tests:
+    run_valgrind_tests:
         runs-on: ubuntu-latest
         steps:
             -   name: "Checkout"
@@ -53,4 +53,86 @@ jobs:
                 uses: ./
                 with:
                     binary_path: "./test_unclosed_file_descriptor"
+                    treat_error_as_warning: true
+
+    run_clang_tests:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: "Checkout"
+                uses: actions/checkout@v4.1.4
+
+            -   name: "Clang ASan test"
+                uses: ./
+                with:
+                    mode: clang
+                    source_files: "tests/test_clang_asan.c"
+                    sanitizer: asan
+                    treat_error_as_warning: true
+
+            -   name: "Clang UBSan test"
+                uses: ./
+                with:
+                    mode: clang
+                    source_files: "tests/test_clang_ubsan.c"
+                    sanitizer: ubsan
+                    treat_error_as_warning: true
+
+            -   name: "Clang TSan test"
+                uses: ./
+                with:
+                    mode: clang
+                    source_files: "tests/test_clang_tsan.c"
+                    sanitizer: tsan
+                    clang_extra_flags: "-pthread"
+                    treat_error_as_warning: true
+
+            -   name: "Clang MSan test"
+                uses: ./
+                with:
+                    mode: clang
+                    source_files: "tests/test_clang_msan.c"
+                    sanitizer: msan
+                    treat_error_as_warning: true
+
+            -   name: "Clang LSan test"
+                uses: ./
+                with:
+                    mode: clang
+                    source_files: "tests/test_clang_lsan.c"
+                    sanitizer: lsan
+                    treat_error_as_warning: true
+
+            -   name: "Clang++ ASan test (C++)"
+                uses: ./
+                with:
+                    mode: clang
+                    compiler: clang++
+                    source_files: "tests/test_clang_asan.cpp"
+                    sanitizer: asan
+                    treat_error_as_warning: true
+
+    run_clang_tidy_tests:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: "Checkout"
+                uses: actions/checkout@v4.1.4
+
+            -   name: "Clang-Tidy test"
+                uses: ./
+                with:
+                    mode: clang-tidy
+                    source_files: "tests/test_clang_tidy.c"
+                    treat_error_as_warning: true
+
+    run_iwyu_tests:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: "Checkout"
+                uses: actions/checkout@v4.1.4
+
+            -   name: "IWYU test"
+                uses: ./
+                with:
+                    mode: iwyu
+                    source_files: "tests/test_iwyu.c"
                     treat_error_as_warning: true

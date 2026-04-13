@@ -15,3 +15,17 @@ case "${MODE}" in
         exit 1
         ;;
 esac
+    clang)
+        exec /root/clang.bash
+        ;;
+    clang-tidy)
+        exec /root/clang-tidy.bash
+        ;;
+    iwyu)
+        exec /root/iwyu.bash
+        ;;
+    *)
+        echo "::error::Unknown mode '${MODE}'. Must be 'valgrind', 'clang', 'clang-tidy', or 'iwyu'."
+        exit 1
+        ;;
+esac
