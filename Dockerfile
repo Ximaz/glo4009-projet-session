@@ -4,6 +4,8 @@ RUN apt update -y                              \
     && apt upgrade -y                          \
     && apt install -y build-essential valgrind clang clang-tidy iwyu
 
+USER root
+
 COPY entrypoint.bash /root/entrypoint.bash
 COPY valgrind.bash /root/valgrind.bash
 COPY helgrind.bash /root/helgrind.bash
