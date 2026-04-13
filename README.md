@@ -113,7 +113,7 @@ check the [`4.2. Explanation of error messages from Memcheck`](https://valgrind.
         # Default: 0s
         timeout: 0s
 ```
-<<<<<<< feature/helgrind
+
 ## Helgrind mode
 
 Helgrind is a Valgrind tool dedicated to multithreaded programs. It helps detect:
@@ -137,11 +137,9 @@ Use `mode: helgrind` to run Helgrind on a target binary.
     verbose: false
     timeout: 10s
     treat_error_as_warning: true
-=======
+```
 
----
-
-# Clang Static Analyzer
+## Clang Static Analyzer
 
 A GitHub Action for static analysis of your C/C++ source files using
 [Clang Static Analyzer](https://clang-analyzer.llvm.org/).
@@ -157,7 +155,7 @@ This Action will check for :
 If you want to have more details about the checks this Action supports, you can
 check the [available checkers](https://clang-analyzer.llvm.org/available_checks.html) section.
 
-# Usage
+### Usage
 
 ```yml
 -   uses: ./
@@ -190,7 +188,7 @@ check the [available checkers](https://clang-analyzer.llvm.org/available_checks.
 
 ---
 
-# Local Testing
+### Local Testing
 
 Build the image:
 ```bash
@@ -209,4 +207,3 @@ docker run --rm -v "$(pwd)/tests:/src" -v "/tmp:/tmp" --entrypoint gcc code-qual
 ```bash
 docker run --rm -v "/tmp:/tmp" -e INPUT_MODE=valgrind -e INPUT_BINARY_PATH=/tmp/test_no_free -e INPUT_REDZONE_SIZE=16 -e INPUT_TRACK_FILE_DESCRIPTORS=true -e INPUT_TREAT_ERROR_AS_WARNING=false -e INPUT_VERBOSE=false -e INPUT_TIMEOUT=0 -e INPUT_VALGRIND_SUPPRESSIONS="" -e INPUT_LD_LIBRARY_PATH="" -e INPUT_BINARY_ARGS="" code-quality-checker
 ```
->>>>>>> main
