@@ -10,6 +10,9 @@ case "${MODE}" in
     helgrind)
         exec /root/helgrind.bash
         ;;
+    clang-static-analyzer)
+        exec /root/clang_static_analyzer.bash
+        ;;
     clang)
         exec /root/clang.bash
         ;;
