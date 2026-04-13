@@ -7,14 +7,12 @@ case "${MODE}" in
     valgrind)
         exec /root/valgrind.bash
         ;;
+    helgrind)
+        exec /root/helgrind.bash
+        ;;
     clang-static-analyzer)
         exec /root/clang_static_analyzer.bash
         ;;
-    *)
-        echo "::error::Unknown mode '${MODE}'. Must be 'valgrind' or 'clang-static-analyzer'."
-        exit 1
-        ;;
-esac
     clang)
         exec /root/clang.bash
         ;;
@@ -25,7 +23,7 @@ esac
         exec /root/iwyu.bash
         ;;
     *)
-        echo "::error::Unknown mode '${MODE}'. Must be 'valgrind', 'clang', 'clang-tidy', or 'iwyu'."
+        echo "::error::Unknown mode '${MODE}'. Must be 'valgrind', 'helgrind', 'clang', 'clang-tidy', or 'iwyu'."
         exit 1
         ;;
 esac

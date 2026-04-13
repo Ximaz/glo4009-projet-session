@@ -113,6 +113,31 @@ check the [`4.2. Explanation of error messages from Memcheck`](https://valgrind.
         # Default: 0s
         timeout: 0s
 ```
+<<<<<<< feature/helgrind
+## Helgrind mode
+
+Helgrind is a Valgrind tool dedicated to multithreaded programs. It helps detect:
+- data races,
+- incorrect mutex usage,
+- inconsistent lock ordering,
+- thread synchronization issues.
+
+Use `mode: helgrind` to run Helgrind on a target binary.
+
+### Example usage with Helgrind
+
+```yml
+- uses: Ximaz/valgrind-action@v1.2.0
+  with:
+    mode: helgrind
+    helgrind_binary_path: "./test_helgrind_race"
+    helgrind_binary_args: ""
+    helgrind_history_level: full
+    helgrind_track_lockorders: true
+    verbose: false
+    timeout: 10s
+    treat_error_as_warning: true
+=======
 
 ---
 
@@ -184,3 +209,4 @@ docker run --rm -v "$(pwd)/tests:/src" -v "/tmp:/tmp" --entrypoint gcc code-qual
 ```bash
 docker run --rm -v "/tmp:/tmp" -e INPUT_MODE=valgrind -e INPUT_BINARY_PATH=/tmp/test_no_free -e INPUT_REDZONE_SIZE=16 -e INPUT_TRACK_FILE_DESCRIPTORS=true -e INPUT_TREAT_ERROR_AS_WARNING=false -e INPUT_VERBOSE=false -e INPUT_TIMEOUT=0 -e INPUT_VALGRIND_SUPPRESSIONS="" -e INPUT_LD_LIBRARY_PATH="" -e INPUT_BINARY_ARGS="" code-quality-checker
 ```
+>>>>>>> main
