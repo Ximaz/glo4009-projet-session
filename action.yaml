@@ -6,7 +6,7 @@ branding:
 
 inputs:
   mode:
-    description: "Analysis mode: 'valgrind', 'helgrind', 'clang', 'clang-tidy', or 'iwyu'"
+    description: "Analysis mode: 'valgrind', 'helgrind', 'clang', 'clang-tidy', 'iwyu', or 'clang-static-analyzer'"
     required: true
     default: valgrind
 

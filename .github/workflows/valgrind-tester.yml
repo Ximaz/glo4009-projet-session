@@ -136,3 +136,16 @@ jobs:
                     mode: iwyu
                     source_files: "tests/test_iwyu.c"
                     treat_error_as_warning: true
+
+    run_clang_static_analyzer_tests:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: "Checkout"
+                uses: actions/checkout@v4.1.4
+
+            -   name: "Clang Static Analyzer — null pointer dereference"
+                uses: ./
+                with:
+                    mode: clang-static-analyzer
+                    source_files: "tests/test_clang_static_analyzer.c"
+                    treat_error_as_warning: true

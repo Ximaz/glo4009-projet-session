@@ -23,7 +23,7 @@ case "${MODE}" in
         exec /root/iwyu.bash
         ;;
     *)
-        echo "::error::Unknown mode '${MODE}'. Must be 'valgrind', 'helgrind', 'clang', 'clang-tidy', or 'iwyu'."
+        echo "::error::Unknown mode '${MODE}'. Must be 'valgrind', 'helgrind', 'clang', 'clang-tidy', 'iwyu', or 'clang-static-analyzer'."
         exit 1
         ;;
 esac
